@@ -1,0 +1,51 @@
+CREATE DATABASE IF NOT EXISTS ACTIVIDAD2;
+USE ACTIVIDAD2;
+
+CREATE TABLE IF NOT EXISTS deptos
+(
+	numdepto INT UNSIGNED NOT NULL,
+	presupuesto DECIMAL(8,2) UNSIGNED NOT NULL,
+	nomdepto VARCHAR(60) NOT NULL,
+	ubicacion VARCHAR(60) NOT NULL,
+	CONSTRAINT pk_deptos PRIMARY KEY (numdepto)
+);
+
+CREATE TABLE IF NOT EXISTS asignaturas
+(
+	numasigna INT UNSIGNED NOT NULL,
+	nomasigna VARCHAR(60) NOT NULL,
+	curso VARCHAR(60) NOT NULL,
+	CONSTRAINT pk_asignaturas PRIMARY KEY (numasigna)
+);
+
+CREATE TABLE IF NOT EXISTS profesores
+(
+	numprof INT UNSIGNED NOT NULL,
+	numdepto INT UNSIGNED NOT NULL,
+	despacho VARCHAR(60) NOT NULL,
+	fecnacim DATE NOT NULL,
+	fecingreso DATE NOT NULL,
+	sueldo DECIMAL(6,2) UNSIGNED NOT NULL,
+	nomprof VARCHAR(60) NOT NULL,
+	ape1prof VARCHAR(60) NOT NULL,
+	ape2prof VARCHAR(60) NULL,
+	jefe INT UNSIGNED NOT NULL,
+	CONSTRAINT pk_profesores PRIMARY KEY (numprof),
+	CONSTRAINT fk_jefes FOREIGN KEY (jefe) REFERENCES profesores(numprof)
+		ON DELETE NO ACTION ON UPDATE CASCADE,
+	CONSTRAINT fk_profesores_deptos FOREIGN KEY (numdepto) REFERENCES deptos(numdepto)
+		ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS imparten
+(
+	numprof INT UNSIGNED NOT NULL,
+	numasigna INT UNSIGNED NOT NULL,
+	grupo VARCHAR(60) NOT NULL,
+	anio_acad DATE NOT NULL,
+	CONSTRAINT pk_imparten PRIMARY KEY (numprof, numasigna),
+	CONSTRAINT fk_imparten_profesores FOREIGN KEY (numprof) REFERENCES profesores(numprof)
+		ON DELETE NO ACTION ON UPDATE CASCADE,
+	CONSTRAINT fk_imparten_asignaturas FOREIGN KEY (numasigna) REFERENCES asignaturas(numasigna)
+		ON DELETE NO ACTION ON UPDATE CASCADE
+);
