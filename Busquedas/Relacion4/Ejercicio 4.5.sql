@@ -1,0 +1,10 @@
+-- Relacion 4 ejercicio 5
+
+DROP PROCEDURE IF EXISTS ejer4_5;
+DELIMITER €€
+CREATE PROCEDURE ejer4_5()
+	BEGIN
+		
+    END €€
+DELIMITER ;
+CALL ejer4_5();
