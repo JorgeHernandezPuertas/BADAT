@@ -11,11 +11,11 @@ CREATE PROCEDURE ejer4_40(zona INT, fecIni DATE, fecFin DATE)
 	BEGIN
 		SELECT casas.codcasa as numero, nomcasa as casa
         FROM casas
-		WHERE (codcasa NOT IN (SELECT codcasa
+		WHERE codcasa NOT IN (SELECT codcasa
 								FROM reservas
-                                WHERE ((DATE_ADD(feciniestancia, INTERVAL numdiasestancia DAY) BETWEEN fecIni AND fecFin)
-										OR (feciniestancia BETWEEN fecIni AND fecIni) OR (DATE_ADD(feciniestancia, INTERVAL numdiasestancia DAY) >= fecFin ) 
-                                        AND fecanulacion IS NULL))
+                                WHERE (feciniestancia BETWEEN fecIni AND fecFin) OR 
+                                        (fecIni BETWEEN feciniestancia AND DATE_ADD(feciniestancia, INTERVAL numdiasestancia DAY))
+                                        AND fecanulacion IS NULL)
 				AND codzona = zona;
     END €€
 DELIMITER ;
